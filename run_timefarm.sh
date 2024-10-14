@@ -86,6 +86,6 @@ fi
 
 # Run the bot
 echo -e "${GREEN}Running the bot...${NC}"
-python3.10 main.py
+python3.10 bot.py
 
 echo -e "${GREEN}Script execution completed!${NC}"
