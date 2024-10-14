@@ -42,13 +42,9 @@ if [ ! -d "timefarmtod" ]; then
     echo -e "${BLUE}Navigating to timefarmtod directory...${NC}"
     cd timefarmtod || exit
 
-    # Copy .env-example to .env
-    echo -e "${BLUE}Copying .env-example to .env...${NC}"
-    cp .env-example .env
-
-    # Open .env file for editing
-    echo -e "${YELLOW}Opening .env file for editing...${NC}"
-    nano .env
+    # Open config.json file for editing
+    echo -e "${YELLOW}Opening config.json file for editing...${NC}"
+    nano config.json
 
     # Set up Python virtual environment
     echo -e "${BLUE}Setting up Python virtual environment...${NC}"
@@ -69,26 +65,23 @@ else
     echo -e "${GREEN}timefarmtod is already installed. Navigating to the directory...${NC}"
     cd timefarmtod || exit
 
-    # Activate the virtual environment
-    echo -e "${BLUE}Activating Python virtual environment...${NC}"
-    source venv/bin/activate
-fi
+    # Check if the virtual environment exists and activate it
+    if [ -f "venv/bin/activate" ]; then
+        echo -e "${BLUE}Activating Python virtual environment...${NC}"
+        source venv/bin/activate
+    else
+        # If the virtual environment does not exist, set it up
+        echo -e "${BLUE}Setting up Python virtual environment...${NC}"
+        python3.10 -m venv venv
 
-# Check if required Python packages are already installed
-if [ ! -f "venv/bin/activate" ]; then
-    # If the virtual environment does not exist, set it up
-    echo -e "${BLUE}Setting up Python virtual environment...${NC}"
-    python3.10 -m venv venv
+        # Activate the virtual environment
+        echo -e "${BLUE}Activating Python virtual environment...${NC}"
+        source venv/bin/activate
 
-    # Activate the virtual environment
-    echo -e "${BLUE}Activating Python virtual environment...${NC}"
-    source venv/bin/activate
-
-    # Install required Python packages
-    echo -e "${BLUE}Installing Python dependencies from requirements.txt...${NC}"
-    pip3.10 install -r requirements.txt --quiet
-else
-    echo -e "${GREEN}Virtual environment already exists. Skipping dependency installation.${NC}"
+        # Install required Python packages
+        echo -e "${BLUE}Installing Python dependencies from requirements.txt...${NC}"
+        pip3.10 install -r requirements.txt --quiet
+    fi
 fi
 
 # Run the bot
